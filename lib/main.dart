@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:janken/workpage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,12 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Hand? myHand;
   Hand? computerHand;
   Result? result;
-
-  List<Hand> jankenList = [
-    Hand.rock,
-    Hand.paper,
-    Hand.scissors,
-  ];
 
   void  chooseComputerText()  {
     final random = Random();
@@ -145,6 +140,19 @@ class _MyHomePageState extends State<MyHomePage> {
               });chooseComputerText();},
               tooltip: 'Increment',
               child: const Text('✋',style: TextStyle(fontSize: 30),)
+          ),
+          const SizedBox(width: 10,),
+          FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return WorkPage(); // 遷移先の画面widgetを指定
+                    },
+                  ),
+                );
+              },
+              child: const Text('Work',style: TextStyle(fontSize: 10),)
           ),
         ],
       ), // This trailing comma makes auto-formatting nicer for build methods.

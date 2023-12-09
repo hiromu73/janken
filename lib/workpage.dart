@@ -3,14 +3,48 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class Work extends StatefulWidget {
-  const Work({super.key});
+class WorkPage extends StatefulWidget {
+  const WorkPage({super.key});
 
   @override
-  State<Work> createState() => _WorkState();
+  State<WorkPage> createState() => _WorkPageState();
 }
 
-class _WorkState extends State<Work> {
+class _WorkPageState extends State<WorkPage> {
+
+  Hand? myHand;
+  Hand? computerHand;
+  Result? result;
+
+  void  chooseComputerText()  {
+    final random = Random();
+    final randomNumber = random.nextInt(3);
+    final hand = Hand.values[randomNumber];
+    setState(() {
+      computerHand = hand;
+    });
+    decideResult ();
+  }
+
+  void decideResult () {
+    if (myHand == null && computerHand == null) {
+      return;
+    }
+
+    final Result result;
+
+    if (myHand == computerHand) {
+      result = Result.win;
+    }
+    else {
+      result = Result.lose;
+    }
+
+    setState(() {
+      this.result = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,38 +83,69 @@ class _WorkState extends State<Work> {
           children: [
             FloatingActionButton(
               onPressed: () {setState(() {
-                myHand = Hand.rock;
+                myHand = Hand.up;
               });
               chooseComputerText();
               },
               tooltip: 'Increment',
-              child: const Text('👊',style: TextStyle(fontSize: 30),
+              child: const Text('👆',style: TextStyle(fontSize: 30),
               ),
             ),
             const SizedBox(width: 10,),
             FloatingActionButton(
                 onPressed: () {setState(() {
-                  myHand = Hand.scissors;
+                  myHand = Hand.down;
                 });chooseComputerText();},
                 tooltip: 'Increment',
-                child: const Text('✌️',style: TextStyle(fontSize: 30),)
+                child: const Text('👇',style: TextStyle(fontSize: 30),)
             ),
             const SizedBox(width: 10,),
             FloatingActionButton(
                 onPressed: () {setState(() {
-                  myHand = Hand.paper;
+                  myHand = Hand.left;
                 });chooseComputerText();},
                 tooltip: 'Increment',
-                child: const Text('✋',style: TextStyle(fontSize: 30),)
+                child: const Text('👈',style: TextStyle(fontSize: 30),)
             ),
             FloatingActionButton(
                 onPressed: () {setState(() {
-                  myHand = Hand.paper;
+                  myHand = Hand.right;
                 });chooseComputerText();},
-                child: const Text('✋',style: TextStyle(fontSize: 30),)
+                child: const Text('👉',style: TextStyle(fontSize: 30),)
             ),
           ],
-        ), /
+        ),
     );
+  }
+}
+
+enum Hand {
+  up,down,left,right;
+
+  String get text {
+    switch (this) {
+      case Hand.up:
+        return '👆';
+      case Hand.down:
+        return '👇';
+      case Hand.left:
+        return '👈';
+      case Hand.right:
+        return '👉';
+    }
+  }
+}
+
+enum Result {
+  win,
+  lose;
+
+  String get text {
+    switch (this) {
+      case Result.win:
+        return '勝ち';
+      case Result.lose:
+        return '負け';
+    }
   }
 }
